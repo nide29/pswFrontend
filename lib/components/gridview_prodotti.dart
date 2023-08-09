@@ -76,11 +76,11 @@ class GridView_prodotti extends StatelessWidget {
             shadowColor: Colors.grey.withOpacity(0.12),
             child: Stack(children: [
               Align(
-                alignment: Alignment(0, -0.8),
+                alignment: const Alignment(0, -0.8),
                 child: Container(
                     height: 200,
                     width: 200,
-                    decoration: BoxDecoration(
+                    decoration: const BoxDecoration(
                         borderRadius: BorderRadius.all(Radius.circular(15))),
                     child: item
                         .icon /*Image.network(
