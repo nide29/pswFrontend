@@ -99,7 +99,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
         ),
 
         Container(
-          height: 3150.0,
+          //height: 3150.0,
           child:
               const GridView_prodotti(), //avvia il widget che ci permetterà di visualizzare tutti i prodotti presenti nel negozio
         )

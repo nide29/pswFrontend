@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_custom_cards/flutter_custom_cards.dart';
 import 'package:frontend/main.dart';
 
+import '../UI/pages/Categoria.dart';
+
 class HorizontalList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -21,7 +23,7 @@ class HorizontalList extends StatelessWidget {
               height: 260,
               width: 260,
               onTap: () {
-                Navigator.pushNamed(context, '/reflex');
+                Navigator.push(context, MaterialPageRoute(builder: ((context) => Categoria('reflex'))));
               },
               borderRadius: 18,
               shadowColor: Colors.grey.withOpacity(0.12),
@@ -47,7 +49,7 @@ class HorizontalList extends StatelessWidget {
               height: 260,
               width: 260,
               onTap: () {
-                Navigator.pushNamed(context, '/mirrorless');
+                Navigator.push(context, MaterialPageRoute(builder: ((context) => Categoria('mirrorless'))));
               },
               borderRadius: 18,
               shadowColor: Colors.grey.withOpacity(0.12),
@@ -73,7 +75,7 @@ class HorizontalList extends StatelessWidget {
               height: 260,
               width: 260,
               onTap: () {
-                Navigator.pushNamed(context, '/obiettivi');
+                Navigator.push(context, MaterialPageRoute(builder: ((context) => Categoria('obiettivi'))));
               },
               borderRadius: 18,
               shadowColor: Colors.grey.withOpacity(0.12),
@@ -99,7 +101,7 @@ class HorizontalList extends StatelessWidget {
               height: 260,
               width: 260,
               onTap: () {
-                Navigator.pushNamed(context, '/batterie');
+                Navigator.push(context, MaterialPageRoute(builder: ((context) => Categoria('batterie'))));
               },
               borderRadius: 18,
               shadowColor: Colors.grey.withOpacity(0.12),
@@ -125,7 +127,7 @@ class HorizontalList extends StatelessWidget {
               height: 260,
               width: 260,
               onTap: () {
-                Navigator.pushNamed(context, '/accessori');
+                Navigator.push(context, MaterialPageRoute(builder: ((context) => Categoria('accessori'))));
               },
               borderRadius: 18,
               shadowColor: Colors.grey.withOpacity(0.12),

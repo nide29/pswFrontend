@@ -2,57 +2,52 @@ import 'package:flutter/material.dart';
 import 'package:frontend/model/Model.dart';
 
 class Prodotto {
-  late int id;
-  late int codice;
-  late String nomeProdotto;
-  late String descrizione;
-  late String categoria;
-  late String marca;
-  late int prezzo;
-  late int quantita;
+  int? id;
+  String? nome;
+  String? descrizione;
+  String? marca;
+  String? categoria;
+  double? prezzo;
+  int? quantita;
   Image? icon;
 
-  Prodotto(id, codice, nomeProdotto, descrizione, categoria, marca, prezzo,
-      quantita) {
+  Prodotto(id, nome, descrizione, marca, categoria, prezzo, quantita) {
     this.id = id;
-    this.codice = codice;
-    this.nomeProdotto = nomeProdotto;
+    this.nome = nome;
     this.descrizione = descrizione;
-    this.categoria = categoria;
     this.marca = marca;
+    this.categoria = categoria;
     this.prezzo = prezzo;
     this.quantita = quantita;
 
-    Model.sharedInstance.getIcon(this.nomeProdotto).then((value) {
-      icon = value;
-    });
+    //Model.sharedInstance.getIcon(this.nome!).then((value) {
+    //  icon = value;
+    //});
   } //constructor
 
   factory Prodotto.fromJson(Map<String, dynamic> json) {
     return Prodotto(
         json['id'],
-        json['codice'],
-        json['nomeProdotto'],
+        json['nome'],
         json['descrizione'],
+        json['marca'],
         json['categoria'],
         json['prezzo'],
-        json['quantita'],
-        json['marca']);
+        json['quantita']);
   }
 
   Map<String, dynamic> toJson() => {
         'id': id,
-        'nomeProdotto': nomeProdotto,
-        'prezzo': prezzo,
-        'categoria': categoria,
+        'nome': nome,
         'descrizione': descrizione,
-        'quantita': quantita,
-        'codice': codice,
-        'marca': marca
+        'marca': marca,
+        'categoria': categoria,
+        'prezzo': prezzo,
+        'quantita': quantita
       };
 
   @override
   String toString() {
-    return nomeProdotto;
+    return nome!;
   }
-}//Prodotto
+} //Prodotto

@@ -42,6 +42,7 @@ class AreaPersonalePage extends StatelessWidget {
                 height: 200,
                 width: 200,
                 child: FloatingActionButton(
+                  heroTag: 'btn1',
                   foregroundColor: Colors.black87,
                   backgroundColor: Colors.white,
                   shape: const RoundedRectangleBorder(
@@ -79,6 +80,7 @@ class AreaPersonalePage extends StatelessWidget {
                 height: 200,
                 width: 200,
                 child: FloatingActionButton(
+                  heroTag: 'btn2',
                   foregroundColor: Colors.black87,
                   backgroundColor: Colors.white,
                   shape: const RoundedRectangleBorder(
@@ -113,6 +115,7 @@ class AreaPersonalePage extends StatelessWidget {
                 height: 200,
                 width: 200,
                 child: FloatingActionButton(
+                  heroTag: 'btn3',
                   foregroundColor: Colors.black87,
                   backgroundColor: Colors.white,
                   shape: const RoundedRectangleBorder(

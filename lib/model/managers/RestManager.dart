@@ -7,14 +7,18 @@ import 'package:frontend/model/support/ErrorListener.dart';
 enum TypeHeader { json, urlencoded }
 
 class RestManager {
-  late ErrorListener delegate;
-  late String? token;
+  ErrorListener? delegate;
+  String? token;
 
   Future<String> _makeRequest(
       String serverAddress, String servicePath, String method, TypeHeader type,
       {required Map<String, String>? value, dynamic body}) async {
+    print('makeRequest1');
+    print('serverAddress: ' + serverAddress);
+    print('servicePath: ' + servicePath);
     Uri uri = Uri.http(serverAddress, servicePath, value);
     bool errorOccurred = false;
+    print('makeRequest2');
     while (true) {
       try {
         var response;
@@ -34,6 +38,8 @@ class RestManager {
         if (token != null) {
           headers[HttpHeaders.authorizationHeader] = 'bearer $token';
         }
+        print('makeRequest3');
+        print('case = ' + method);
         // making request
         switch (method) {
           case "post":
@@ -44,10 +50,16 @@ class RestManager {
             );
             break;
           case "get":
+            print('justCuriosity1');
+
+            print('uri : ' + uri.toString());
+            print('headers : ' + headers.toString());
             response = await get(
               uri,
               headers: headers,
             );
+
+            print('justCuriosity2');
             break;
           case "put":
             response = await put(
@@ -63,13 +75,14 @@ class RestManager {
             break;
         }
         if (delegate != null && errorOccurred) {
-          delegate.errorNetworkGone();
+          delegate?.errorNetworkGone();
           errorOccurred = false;
         }
+        print('response body: ' + response.body);
         return response.body;
       } catch (err) {
         if (delegate != null && !errorOccurred) {
-          delegate.errorNetworkOccurred(Constants.MESSAGE_CONNECTION_ERROR);
+          delegate?.errorNetworkOccurred(Constants.MESSAGE_CONNECTION_ERROR);
           errorOccurred = true;
         }
         await Future.delayed(const Duration(seconds: 5), () => null);
@@ -86,6 +99,7 @@ class RestManager {
 
   Future<String> makeGetRequest(String serverAddress, String servicePath,
       [Map<String, String>? value, TypeHeader? type]) async {
+    print('getRequest1');
     return _makeRequest(serverAddress, servicePath, "get", type!, value: value);
   }
 

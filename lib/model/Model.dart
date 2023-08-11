@@ -14,7 +14,7 @@ class Model {
   static Model sharedInstance = Model();
 
   RestManager _restManager = RestManager();
-  late AuthenticationData _authenticationData;
+  AuthenticationData? _authenticationData;
 
   Future<LogInResult> logIn(String email, String password) async {
     try {
@@ -37,17 +37,18 @@ class Model {
           type: TypeHeader.urlencoded);
 
       _authenticationData = AuthenticationData.fromJson(jsonDecode(result));
-      if (_authenticationData.hasError()) {
-        if (_authenticationData.error == "Invalid user credentials") {
+      if (_authenticationData!.hasError()) {
+        if (_authenticationData!.error == "Invalid user credentials") {
           return LogInResult.error_wrong_credentials;
-        } else if (_authenticationData.error == "Account is not fully set up") {
+        } else if (_authenticationData!.error ==
+            "Account is not fully set up") {
           return LogInResult.error_not_fully_setupped;
         } else {
           return LogInResult.error_unknown;
         }
       }
-      _restManager.token = _authenticationData.accessToken;
-      Timer.periodic(Duration(seconds: (_authenticationData.expiresIn - 50)),
+      _restManager.token = _authenticationData?.accessToken;
+      Timer.periodic(Duration(seconds: (_authenticationData!.expiresIn - 50)),
           (Timer t) {
         _refreshToken();
       });
@@ -63,17 +64,17 @@ class Model {
       params["grant_type"] = "refresh_token";
       params["client_id"] = Constants.CLIENT_ID;
       params["client_secret"] = Constants.CLIENT_SECRET;
-      params["refresh_token"] = _authenticationData.refreshToken;
+      params["refresh_token"] = _authenticationData!.refreshToken;
       String result = await _restManager.makePostRequest(
           Constants.ADDRESS_AUTHENTICATION_SERVER,
           Constants.REQUEST_LOGIN,
           params,
           type: TypeHeader.urlencoded);
       _authenticationData = AuthenticationData.fromJson(jsonDecode(result));
-      if (_authenticationData.hasError()) {
+      if (_authenticationData!.hasError()) {
         return false;
       }
-      _restManager.token = _authenticationData.accessToken;
+      _restManager.token = _authenticationData?.accessToken;
       return true;
     } catch (e) {
       return false;
@@ -86,7 +87,7 @@ class Model {
       _restManager.token = null;
       params["client_id"] = Constants.CLIENT_ID;
       params["client_secret"] = Constants.CLIENT_SECRET;
-      params["refresh_token"] = _authenticationData.refreshToken;
+      params["refresh_token"] = _authenticationData!.refreshToken;
       await _restManager.makePostRequest(
           Constants.ADDRESS_AUTHENTICATION_SERVER,
           Constants.REQUEST_LOGOUT,
@@ -224,9 +225,11 @@ class Model {
   }
 
   Future<List<Prodotto>?> getProdottoByCategoria(String categoria) async {
+    print('model1');
     Map<String, String> params = Map();
     params["categoria"] = categoria;
     try {
+      print('model2');
       List<Prodotto> ret = List<Prodotto>.from(json
           .decode(await _restManager.makeGetRequest(
               Constants.ADDRESS_STORE_SERVER,
@@ -235,6 +238,7 @@ class Model {
               TypeHeader.json))
           .map((i) => Prodotto.fromJson(i))
           .toList());
+      print('model3');
       return ret;
     } catch (e) {
       return null; // not the best solution
