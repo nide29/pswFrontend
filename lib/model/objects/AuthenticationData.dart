@@ -1,13 +1,13 @@
 class AuthenticationData {
   String accessToken;
   String refreshToken;
-  String error;
+  String? error;
   int expiresIn;
 
   AuthenticationData({
     required this.accessToken,
     required this.refreshToken,
-    required this.error,
+     this.error,
     required this.expiresIn,
   });
 
@@ -20,7 +20,10 @@ class AuthenticationData {
     );
   }
 
+
   bool hasError() {
-    return error != null;
+    return error!=null;
   }
+
+
 }

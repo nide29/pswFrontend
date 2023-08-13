@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/UI/pages/signUpPage.dart';
+import '../../model/Model.dart';
+import '../../model/objects/Utente.dart';
+import '../../model/support/LogInResult.dart';
 import 'homepage.dart';
 
 class Login extends StatefulWidget {
@@ -11,6 +14,15 @@ class _LoginState extends State<Login> {
   TextEditingController _email = TextEditingController();
   TextEditingController _password = TextEditingController();
   bool isObscured = true;
+  String nomeUtente = "default";
+
+  Future<void> fetchData() async {
+    Utente? u = await Model.sharedInstance.getUserByEmail(_email.text);
+    setState(() {
+      nomeUtente = u!.nome;
+      print('SETTATOO => ' + nomeUtente);
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -18,7 +30,7 @@ class _LoginState extends State<Login> {
       appBar: AppBar(
         elevation: 0,
         backgroundColor: Colors.yellowAccent,
-        title: Text(
+        title: const Text(
           'AREA PERSONALE',
           style: TextStyle(
               color: Colors.black87, fontSize: 24, fontFamily: 'Avenir'),
@@ -116,23 +128,61 @@ class _LoginState extends State<Login> {
                         color: Colors.yellowAccent,
                         elevation: 0.0,
                         child: MaterialButton(
-                          onPressed: () {
-                            /*
-                                Model.sharedInstance.logIn(_email.text, _password.text).then((value){
+                          onPressed: () async {
+                            LogInResult loginResult = await Model.sharedInstance
+                                .logIn(_email.text, _password.text);
+
+                            if (loginResult == LogInResult.logged) {
+                              Utente.utente = await Model.sharedInstance
+                                  .getUserByEmail(_email.text);
+                              if (Utente.utente != null) {
+                                setState(() {
+                                  showDialog(
+                                      context: context,
+                                      builder: (BuildContext context) {
+                                        return AlertDialog(
+                                          content: Row(
+                                            children: [
+                                              Text(
+                                                  'Log in effettuato!\nBenvenuto, ${Utente
+                                                      .utente!.nome}'),
+                                              MaterialButton(
+                                                onPressed: () {
+                                                  Navigator.pop(context);
+                                                },
+                                                child: Text("OK"),
+                                              ),
+                                            ],
+                                          ),
+                                        );
+                                      });
+                                });
+                              } else {
+                                showDialog(
+                                    context: context,
+                                    builder: (BuildContext context) {
+                                      return AlertDialog(
+                                        content:
+                                        Text("Email o Password non valide."),
+                                      );
+                                    });
+                              }
+                              /*Model.sharedInstance.logIn(_email.text, _password.text).then((value){
                                   if(value==LogInResult.logged){
                                     Model.sharedInstance.getUserByEmail(_email.text).then((value2){
-                                      Utente.utente=value2;
+                                        Utente.utente = value2;
                                     });
+                                    fetchData();
                                     showDialog(
                                         context: context,
                                         builder: (BuildContext context) {
                                           return AlertDialog(
                                             content:  Row(
                                               children: [
-                                                Text(
-                                                    "Log in effettuato!\nClicca su OK per essere reindirizzato alla Home"),
+                                                Text('Log in effettuato!\nBenvenuto, $nomeUtente'),
                                                 MaterialButton(onPressed: (){
-                                                  Navigator.pushNamed(context, '/homepage');
+                                                  //Navigator.pushNamed(context, '/homepage');
+                                                  Navigator.pop(context);
                                                 }, child: Text("OK"),),
                                               ],
                                             ),
@@ -143,11 +193,10 @@ class _LoginState extends State<Login> {
                                     showDialog(context: context, builder: (BuildContext context){return AlertDialog(content: new Text ("Email o Password non valide.\nClicca sullo schermo per tornare indietro"),);});
                                     ;
                                   }
-                                });
-                                */
-                          },
+                                });*/
+                            }},
                           minWidth: MediaQuery.of(context).size.width,
-                          child: Text(
+                          child: const Text(
                             "Login",
                             textAlign: TextAlign.center,
                             style: TextStyle(

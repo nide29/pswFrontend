@@ -9,6 +9,8 @@ class Utente {
   String password;
   //String indirizzo;
 
+  static Utente? utente;
+
   Utente({
     required this.id,
     required this.nome,

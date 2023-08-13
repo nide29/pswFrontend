@@ -43,6 +43,8 @@ class RestManager {
         // making request
         switch (method) {
           case "post":
+            print('uri : ' + uri.toString());
+            print('headers : ' + headers.toString());
             response = await post(
               uri,
               headers: headers,
@@ -99,7 +101,7 @@ class RestManager {
 
   Future<String> makeGetRequest(String serverAddress, String servicePath,
       [Map<String, String>? value, TypeHeader? type]) async {
-    print('getRequest1');
+    print('getRequest1' + serverAddress + servicePath + value.toString() + type.toString());
     return _makeRequest(serverAddress, servicePath, "get", type!, value: value);
   }
 

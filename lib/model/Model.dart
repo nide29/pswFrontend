@@ -30,13 +30,22 @@ class Model {
 
       params["password"] = password;
 
+      print(' ');
+      print('params: ' + params.toString());
+
       String result = await _restManager.makePostRequest(
           Constants.ADDRESS_AUTHENTICATION_SERVER,
           Constants.REQUEST_LOGIN,
           params,
           type: TypeHeader.urlencoded);
 
+      print('\n result: ' + result);
+
+      print('\n auth dataaaa');
       _authenticationData = AuthenticationData.fromJson(jsonDecode(result));
+
+      print(_authenticationData);
+
       if (_authenticationData!.hasError()) {
         if (_authenticationData!.error == "Invalid user credentials") {
           return LogInResult.error_wrong_credentials;
@@ -117,13 +126,18 @@ class Model {
   Future<Utente?> getUserByEmail(String email) async {
     Map<String, String> params = Map();
     params["email"] = email;
+    print('parameters: ' + params.toString());
     try {
       String rawResult = await _restManager.makeGetRequest(
           Constants.ADDRESS_STORE_SERVER,
           Constants.REQUEST_SEARCH_USER_BY_EMAIL,
-          params);
+          params,
+          TypeHeader.json);
+      print('model rawresult: ' + rawResult);
       return Utente.fromJson(jsonDecode(rawResult));
     } catch (e) {
+      print('ECCEZIONE');
+      print(e);
       return null; // not the best solution
     }
   }
