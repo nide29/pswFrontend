@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../UI/pages/cart.dart';
 import '../UI/pages/loginPage.dart';
 
 class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
@@ -33,7 +34,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
               icon: const Icon(Icons.person)),
           IconButton(
               onPressed: () {
-                Navigator.pushNamed(context, '/cart');
+                Navigator.push(context, MaterialPageRoute(builder: ((context) => Cart())));
               },
               icon: const Icon(Icons.shopping_cart))
         ]);

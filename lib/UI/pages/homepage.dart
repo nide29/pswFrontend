@@ -36,8 +36,7 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
     ];
     return Scaffold(
       appBar: const CustomAppBar(title: 'OBIETTIVAMENTE'),
-      //drawer: Drawer(), //TODO
-      backgroundColor: Color.fromARGB(255, 255, 255, 249),
+      backgroundColor: const Color.fromARGB(255, 255, 255, 249),
       body: ListView(children: [
         CarouselSlider(
           options: CarouselOptions(
@@ -98,11 +97,8 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
           ),
         ),
 
-        Container(
-          //height: 3150.0,
-          child:
-              const GridView_prodotti(), //avvia il widget che ci permetterà di visualizzare tutti i prodotti presenti nel negozio
-        )
+        const GridView_prodotti(), //avvia il widget che ci permetterà di visualizzare tutti i prodotti presenti nel negozio
+
       ]),
     );
   }

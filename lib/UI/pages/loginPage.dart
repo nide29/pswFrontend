@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:frontend/UI/pages.dart';
 import 'package:frontend/UI/pages/signUpPage.dart';
 import '../../model/Model.dart';
 import '../../model/objects/Utente.dart';
@@ -144,11 +145,20 @@ class _LoginState extends State<Login> {
                                           content: Row(
                                             children: [
                                               Text(
-                                                  'Log in effettuato!\nBenvenuto, ${Utente
-                                                      .utente!.nome}'),
+                                                  'Log in effettuato!\nBenvenuto, ${Utente.utente!.nome.toUpperCase()}'),
                                               MaterialButton(
                                                 onPressed: () {
-                                                  Navigator.pop(context);
+                                                  //Navigator.pop(context);
+                                                  //Navigator.pop(context);
+                                                  /*Navigator.pushAndRemoveUntil(
+                                                    context,
+                                                    MaterialPageRoute(
+                                                        builder: (context) =>
+                                                            AreaPersonalePage()),
+                                                    (Route<dynamic> route) =>
+                                                        false,
+                                                  );*/
+                                                  Navigator.push(context, MaterialPageRoute(builder: (context) => AreaPersonalePage()));
                                                 },
                                                 child: Text("OK"),
                                               ),
@@ -157,15 +167,6 @@ class _LoginState extends State<Login> {
                                         );
                                       });
                                 });
-                              } else {
-                                showDialog(
-                                    context: context,
-                                    builder: (BuildContext context) {
-                                      return AlertDialog(
-                                        content:
-                                        Text("Email o Password non valide."),
-                                      );
-                                    });
                               }
                               /*Model.sharedInstance.logIn(_email.text, _password.text).then((value){
                                   if(value==LogInResult.logged){
@@ -194,7 +195,17 @@ class _LoginState extends State<Login> {
                                     ;
                                   }
                                 });*/
-                            }},
+                            } else {
+                              showDialog(
+                                  context: context,
+                                  builder: (BuildContext context) {
+                                    return AlertDialog(
+                                      content: Text(
+                                          "Email o Password non valide."),
+                                    );
+                                  });
+                            }
+                          },
                           minWidth: MediaQuery.of(context).size.width,
                           child: const Text(
                             "Login",

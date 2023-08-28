@@ -27,6 +27,7 @@ class Constants {
   static final String REQUEST_GET_ICON = "/prodotto/icon";
   static final String REQUEST_ADD_PRODUCT = "/prodotto";
   static final String REQUEST_ADD_USER = "/utente";
+  static final String REQUEST_DELETE_USER = "/utente/id";
   static final String REQUEST_SEARCH_USERS = "/utente";
   static final String REQUEST_UPDATE_USER = "/utente";
   static final String REQUEST_SEARCH_USER_BY_EMAIL = "/utente/email";

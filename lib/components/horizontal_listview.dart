@@ -83,7 +83,7 @@ class HorizontalList extends StatelessWidget {
                 ClipRRect(
                     borderRadius: BorderRadius.all(Radius.circular(18)),
                     child:
-                        Image.network('images/reflex.jpg', fit: BoxFit.cover)),
+                        Center(child: Image.network('images/obiettivi.jpg', fit: BoxFit.cover, scale: 1.8))),
                 const Text(
                   'OBIETTIVI', //categoria del prodotto
                   style: TextStyle(
@@ -109,7 +109,7 @@ class HorizontalList extends StatelessWidget {
                 ClipRRect(
                     borderRadius: BorderRadius.all(Radius.circular(18)),
                     child:
-                        Image.network('images/reflex.jpg', fit: BoxFit.cover)),
+                        Center(child: Image.network('images/batterie.jpg', fit: BoxFit.cover, scale:1.7,))),
                 const Text(
                   'BATTERIE', //categoria del prodotto
                   style: TextStyle(
@@ -135,7 +135,7 @@ class HorizontalList extends StatelessWidget {
                 ClipRRect(
                     borderRadius: BorderRadius.all(Radius.circular(18)),
                     child:
-                        Image.network('images/reflex.jpg', fit: BoxFit.cover)),
+                        Image.network('images/accessori.jpg', fit: BoxFit.cover)),
                 const Text(
                   'ACCESSORI', //categoria del prodotto
                   style: TextStyle(

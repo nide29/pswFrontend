@@ -4,43 +4,42 @@ class Utente {
   int id;
   String nome;
   String cognome;
-  //String telefono;
+  String telefono;
   String email;
   String password;
-  //String indirizzo;
+  String indirizzo;
 
   static Utente? utente;
 
-  Utente({
-    required this.id,
-    required this.nome,
-    required this.cognome,
-    //required this.telefono,
-    required this.email,
-    required this.password,
-    //required this.indirizzo
-  });
+  Utente(
+      {required this.id,
+      required this.nome,
+      required this.cognome,
+      required this.telefono,
+      required this.email,
+      required this.password,
+      required this.indirizzo});
 
   factory Utente.fromJson(Map<String, dynamic> json) {
     return Utente(
-      id: json['id'],
-      password: json['password'],
-      nome: json['nome'],
-      cognome: json['cognome'],
-      //telefono: json['telefono'],
-      email: json['email'],
-      //indirizzo: json['indirizzo'],
+        id: json['id'],
+        nome: json['nome'],
+        cognome: json['cognome'],
+        email: json['email'],
+        password: json['password'],
+        indirizzo: json['indirizzo'],
+        telefono: json['telefono']
     );
   }
 
   Map<String, dynamic> toJson() => {
         'id': id,
-        'password': password,
         'nome': nome,
         'cognome': cognome,
-        //'telefono': telefono,
         'email': email,
-        //'indirizzo': indirizzo,
+        'password': password,
+        'indirizzo': indirizzo,
+        'telefono': telefono
       };
 
   @override

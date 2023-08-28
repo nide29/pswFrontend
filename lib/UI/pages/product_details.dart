@@ -1,7 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_custom_cards/flutter_custom_cards.dart';
+import 'package:frontend/UI/pages.dart';
+import 'package:frontend/UI/pages/signUpPage.dart';
+import 'package:intl/intl.dart';
 
+import '../../model/Model.dart';
+import '../../model/objects/Ordine.dart';
 import '../../model/objects/Prodotto.dart';
+import '../../model/objects/Prodotto_nel_Carrello.dart';
+import '../../model/objects/Utente.dart';
+import 'cart.dart';
+import 'homepage.dart';
 
 class ProductDetails extends StatefulWidget {
   final Prodotto prodotto;
@@ -30,7 +39,8 @@ class _ProductDetailsState extends State<ProductDetails> {
           actions: [
             IconButton(
                 onPressed: () {
-                  Navigator.pushNamed(context, '/cart');
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: ((context) => Cart())));
                 },
                 icon: const Icon(Icons.shopping_cart))
           ]),
@@ -56,59 +66,62 @@ class _ProductDetailsState extends State<ProductDetails> {
                   ),
                 ),
               ),
-              Column(
-                // nome prodotto + disponibilità
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.only(left: 100, top: 30),
-                    child: Text(
-                      '${widget.prodotto.marca!.toUpperCase()} ${widget.prodotto.nome!.toUpperCase()}',
-                      style: const TextStyle(
-                          color: Colors.black87,
-                          fontSize: 24,
-                          fontFamily: 'Avenir',
-                          fontWeight: FontWeight.bold),
+              Container(
+                width: 400,
+                child: Column(
+                  // nome prodotto + disponibilità
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(left: 100, top: 30),
+                      child: Text(
+                        '${widget.prodotto.marca!.toUpperCase()} ${widget.prodotto.nome!.toUpperCase()}',
+                        style: const TextStyle(
+                            color: Colors.black87,
+                            fontSize: 24,
+                            fontFamily: 'Avenir',
+                            fontWeight: FontWeight.bold),
+                      ),
                     ),
-                  ),
-                  const Padding(
-                    padding: EdgeInsets.only(left: 100, top: 120),
-                    child: Text(
-                      'Disponibilità:',
-                      style: TextStyle(
-                          color: Colors.black87,
-                          fontSize: 18,
-                          fontFamily: 'Avenir',
-                          fontWeight: FontWeight.bold),
+                    const Padding(
+                      padding: EdgeInsets.only(left: 100, top: 120),
+                      child: Text(
+                        'Disponibilità:',
+                        style: TextStyle(
+                            color: Colors.black87,
+                            fontSize: 18,
+                            fontFamily: 'Avenir',
+                            fontWeight: FontWeight.bold),
+                      ),
                     ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 100, top: 10),
-                    child: Text(
-                      widget.prodotto.quantita! > 0
-                          ? 'Disponibilità Immediata'
-                          : 'Non Disponibile',
-                      style: TextStyle(
-                          color: widget.prodotto.quantita! > 0
-                              ? Colors.green
-                              : Colors.red,
-                          fontSize: 17,
-                          fontFamily: 'Avenir'),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 100, top: 10),
+                      child: Text(
+                        widget.prodotto.quantita! > 0
+                            ? 'Disponibilità Immediata'
+                            : 'Non Disponibile',
+                        style: TextStyle(
+                            color: widget.prodotto.quantita! > 0
+                                ? Colors.green
+                                : Colors.red,
+                            fontSize: 17,
+                            fontFamily: 'Avenir'),
+                      ),
                     ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 100),
-                    child: Text(
-                      widget.prodotto.quantita! == 1
-                          ? 'ULTIMO PRODOTTO RIMANENTE!'
-                          : '',
-                      style: const TextStyle(
-                          color: Colors.redAccent,
-                          fontSize: 12,
-                          fontFamily: 'Avenir',
-                          fontStyle: FontStyle.italic),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 100),
+                      child: Text(
+                        widget.prodotto.quantita! == 1
+                            ? 'ULTIMO PRODOTTO RIMANENTE!'
+                            : '',
+                        style: const TextStyle(
+                            color: Colors.redAccent,
+                            fontSize: 12,
+                            fontFamily: 'Avenir',
+                            fontStyle: FontStyle.italic),
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
               Column(
                 children: [
@@ -140,7 +153,19 @@ class _ProductDetailsState extends State<ProductDetails> {
                       height: 50,
                       width: 300,
                       child: FloatingActionButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          showDialog(
+                              context: context,
+                              builder: (BuildContext context) {
+                                return AlertDialog(
+                                  content: Text(
+                                      "Prodotto aggiunto al carrello!\nClicca sullo schermo per tornare indietro"),
+                                );
+                              });
+                          ProdottoNelCarrello nuovo = ProdottoNelCarrello(
+                              id: -1, quantita: 1, prodotto: widget.prodotto);
+                          ProdottoNelCarrello.carrello!.add(nuovo);
+                        },
                         heroTag: 'btnCart',
                         foregroundColor: Colors.black87,
                         backgroundColor: Colors.yellowAccent,
@@ -174,7 +199,70 @@ class _ProductDetailsState extends State<ProductDetails> {
                       height: 40,
                       width: 300,
                       child: FloatingActionButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          if (Utente.utente != null) {
+                            List<ProdottoNelCarrello> ordineist = List<ProdottoNelCarrello>.empty(growable: true);
+                            ordineist.add(ProdottoNelCarrello(
+                                id: -1,
+                                quantita: 1,
+                                prodotto: widget.prodotto));
+                            print('COMPRA ORA: ' + ordineist.toString());
+                            Model.sharedInstance
+                                .addOrdine(Ordine(
+                                    idOrdine: -1,
+                                    acquirente: Utente.utente,
+                                    importo: widget.prodotto.prezzo,
+                                dataAcquisto: DateFormat('yyyy-MM-dd').format(DateTime.now()).toString(),
+                                    prodotti: ordineist))
+                                .then((value) {
+                              showDialog(
+                                  context: context,
+                                  builder: (BuildContext context) {
+                                    return AlertDialog(
+                                      content: Row(
+                                        children: [
+                                          const Text(
+                                              "Ordine creato!\nClicca su OK per tornare alla home"),
+                                          MaterialButton(
+                                            onPressed: () {
+                                              MaterialPageRoute route =
+                                                  MaterialPageRoute(
+                                                      builder: (context) =>
+                                                          HomePage());
+                                              Navigator.push(context, route);
+                                            },
+                                            child: const Text("OK"),
+                                          ),
+                                        ],
+                                      ),
+                                    );
+                                  });
+                            });
+                          } else {
+                            showDialog(
+                                context: context,
+                                builder: (BuildContext context) {
+                                  return AlertDialog(
+                                    content: Row(
+                                      children: [
+                                        const Text(
+                                            'Per effettuare un ordine devi avere effettuato il LogIn!\nClicca su OK per farlo'),
+                                        MaterialButton(
+                                          onPressed: () {
+                                            MaterialPageRoute route =
+                                                MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        const AreaPersonalePage());
+                                            Navigator.push(context, route);
+                                          },
+                                          child: const Text("OK"),
+                                        ),
+                                      ],
+                                    ),
+                                  );
+                                });
+                          }
+                        },
                         heroTag: 'btnCheckout',
                         foregroundColor: Colors.black87,
                         backgroundColor: Colors.orangeAccent,
@@ -225,7 +313,7 @@ class _ProductDetailsState extends State<ProductDetails> {
           Padding(
             padding: EdgeInsets.only(top: 20, left: 60),
             child: Text(
-              'NOME:  ${widget.prodotto.nome!}',
+              'NOME:  ${widget.prodotto.marca!} ${widget.prodotto.nome!}',
               style: TextStyle(
                   color: Colors.black.withOpacity(0.8),
                   fontSize: 18,
@@ -276,8 +364,6 @@ class _ProductDetailsState extends State<ProductDetails> {
                   fontFamily: 'Avenir'),
             ),
           ),
-
-
         ],
       ),
     );

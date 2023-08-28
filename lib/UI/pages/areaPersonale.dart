@@ -1,10 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_custom_cards/flutter_custom_cards.dart';
+import 'package:frontend/model/objects/Utente.dart';
 
+import '../../model/Model.dart';
+import '../../model/objects/Ordine.dart';
 import '../../widget/custom_appbar.dart';
 import '../../widget/custom_navbar.dart';
+import 'cart.dart';
 import 'homepage.dart';
+import 'infoUtente.dart';
 import 'loginPage.dart';
+import 'ordini.dart';
 
 class AreaPersonalePage extends StatelessWidget {
   static const String routeName = '/areaPersonale';
@@ -18,8 +24,39 @@ class AreaPersonalePage extends StatelessWidget {
     );
   }
 
+  static bool _status = false; //vale FALSE se non si è loggati, TRUE altrimenti
+  static List<Ordine>? ordini = List.empty(growable: true);
+
+
+  Future<void> fetchData() async {
+    _status = Utente.utente == null ? false : true;
+  }
+
+  Future<void> fetchOrdini() async {
+    if (_status) {
+      Model.sharedInstance.getOrdineByUtente(Utente.utente!.email).then((
+          value) {
+        print('\nEMAIL UTENTE: ' + Utente.utente!.email);
+        print('VALUE: ' +value.toString());
+        if (value != null) {
+          if(!(ordini!.contains(value))) {
+            ordini = value;
+          }
+        print('ORDINI FETCHED: ' + ordini.toString());
+        }
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
+    fetchData();
+    if(!_status) {
+      ordini = List.empty(growable: true);
+    }
+    fetchOrdini();
+    print('STATO LOGIN: ' + _status.toString());
+    print("ORDINI1: " + ordini.toString());
     return Scaffold(
         appBar: AppBar(
           elevation: 0,
@@ -30,6 +67,25 @@ class AreaPersonalePage extends StatelessWidget {
                 color: Colors.black87, fontSize: 24, fontFamily: 'Avenir'),
           ),
           centerTitle: true,
+          actions: [IconButton(
+              onPressed: () {
+                Navigator.push(context, MaterialPageRoute(builder: ((context) => Cart())));
+              },
+              icon: const Icon(Icons.shopping_cart))],
+          leading: IconButton(
+            icon: const Icon(Icons.arrow_back),
+            onPressed: () {
+              Navigator.pushAndRemoveUntil(
+                  context,
+                  PageRouteBuilder(
+                    pageBuilder: (context, animation1, animation2) =>
+                        const HomePage(),
+                    transitionDuration: const Duration(seconds: 0),
+                    reverseTransitionDuration: const Duration(seconds: 0),
+                  ),
+                  (Route<dynamic> route) => false);
+            },
+          ),
           iconTheme: const IconThemeData(color: Colors.black87),
         ),
         body: Column(
@@ -48,8 +104,29 @@ class AreaPersonalePage extends StatelessWidget {
                   shape: const RoundedRectangleBorder(
                       borderRadius: BorderRadius.all(Radius.circular(15))),
                   onPressed: () {
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: ((context) => Login())));
+                    if (!_status) {
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: ((context) => Login())));
+                    } else {
+                      showDialog(
+                          context: context,
+                          builder: (BuildContext context) {
+                            return AlertDialog(
+                              content: Row(
+                                children: [
+                                  Text(
+                                      '${Utente.utente!.nome.toUpperCase()}, hai già effettuato il LogIn!'),
+                                  MaterialButton(
+                                    onPressed: () {
+                                      Navigator.pop(context);
+                                    },
+                                    child: Text("OK"),
+                                  ),
+                                ],
+                              ),
+                            );
+                          });
+                    }
                   },
                   child: Stack(children: [
                     Align(
@@ -85,7 +162,33 @@ class AreaPersonalePage extends StatelessWidget {
                   backgroundColor: Colors.white,
                   shape: const RoundedRectangleBorder(
                       borderRadius: BorderRadius.all(Radius.circular(15))),
-                  onPressed: () {},
+                  onPressed: () {
+                    if (!_status) {
+                      showDialog(
+                          context: context,
+                          builder: (BuildContext context) {
+                            return AlertDialog(
+                              content: Row(
+                                children: [
+                                  Text(
+                                      'Per visualizzare le tue informazioni personali devi prima effettuare il LogIn!'),
+                                  MaterialButton(
+                                    onPressed: () {
+                                      Navigator.pop(context);
+                                    },
+                                    child: Text("OK"),
+                                  ),
+                                ],
+                              ),
+                            );
+                          });
+                    } else {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => InformazioniUtente()));
+                    }
+                  },
                   child: Stack(children: [
                     Align(
                       alignment: Alignment(0, -0.3),
@@ -120,7 +223,32 @@ class AreaPersonalePage extends StatelessWidget {
                   backgroundColor: Colors.white,
                   shape: const RoundedRectangleBorder(
                       borderRadius: BorderRadius.all(Radius.circular(15))),
-                  onPressed: () {},
+                  onPressed: () {
+                    if (!_status) {
+                      showDialog(
+                          context: context,
+                          builder: (BuildContext context) {
+                            return AlertDialog(
+                              content: Row(
+                                children: [
+                                  const Text(
+                                      'Per visualizzare i tuoi ordini devi prima effettuare il LogIn!'),
+                                  MaterialButton(
+                                    onPressed: () {
+                                      Navigator.pop(context);
+                                    },
+                                    child: Text("OK"),
+                                  ),
+                                ],
+                              ),
+                            );
+                          });
+                    } else {
+                      print('ORDINI: ' + ordini.toString());
+                      fetchOrdini();
+                        Navigator.push(context, MaterialPageRoute(builder: (context) => Orders(ordini!)));
+                    }
+                  },
                   child: Stack(children: [
                     Align(
                       alignment: Alignment(0, -0.3),
@@ -152,8 +280,8 @@ class AreaPersonalePage extends StatelessWidget {
                 child: Container(
                   child: TextButton(
                     onPressed: () {
-                      //Model.sharedInstance.logOut();
-                      //Utente.utente=null;
+                      Model.sharedInstance.logOut();
+                      Utente.utente = null;
                       showDialog(
                           context: context,
                           builder: (BuildContext context) {
@@ -165,11 +293,17 @@ class AreaPersonalePage extends StatelessWidget {
                                   MaterialButton(
                                     onPressed: () {
                                       Navigator.pushAndRemoveUntil(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) => HomePage()),
-                                        (Route<dynamic> route) => false,
-                                      );
+                                          context,
+                                          PageRouteBuilder(
+                                            pageBuilder: (context, animation1,
+                                                    animation2) =>
+                                                const HomePage(),
+                                            transitionDuration:
+                                                const Duration(seconds: 0),
+                                            reverseTransitionDuration:
+                                                const Duration(seconds: 0),
+                                          ),
+                                          (Route<dynamic> route) => false);
                                     },
                                     child: Text("OK"),
                                   ),

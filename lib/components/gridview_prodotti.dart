@@ -14,14 +14,16 @@ class GridView_prodotti extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    fetchData();
+    print('LUNGHEZZA: ' + list.length.toString());
     return Container(
-      height: (list.length % 4) * 200,
+      height: (list.length / 4).ceil() * 350,
       padding: const EdgeInsets.only(left: 30, right: 30),
       child: FutureBuilder<List<Prodotto>>(
         future: fetchData(),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return const CircularProgressIndicator();
+            return const CircularProgressIndicator(color: Colors.grey);
           } else if (snapshot.hasData) {
             list = snapshot.data!;
             return GridView.builder(
@@ -52,10 +54,13 @@ class GridView_prodotti extends StatelessWidget {
                             decoration: const BoxDecoration(
                                 borderRadius:
                                     BorderRadius.all(Radius.circular(15))),
-                            child: Image.network(
-                              'images/${item.nome!}.jpg',
-                              fit: BoxFit.cover,
-                              alignment: Alignment.topCenter,
+                            child: ClipRRect(
+                              borderRadius: const BorderRadius.all(Radius.circular(15)),
+                              child: Image.network(
+                                'images/${item.nome!}.jpg',
+                                fit: BoxFit.cover,
+                                alignment: Alignment.topCenter,
+                              ),
                             )),
                       ),
                       Align(
@@ -71,7 +76,7 @@ class GridView_prodotti extends StatelessWidget {
                       Align(
                         alignment: const Alignment(0, 0.8),
                         child: Text(
-                          '€ ${item.prezzo}', //categoria del prodotto
+                          '€ ${item.prezzo}.00', //categoria del prodotto
                           style: const TextStyle(
                               color: Colors.black87,
                               fontSize: 26,

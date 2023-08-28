@@ -17,13 +17,14 @@ class RestManager {
     print('serverAddress: ' + serverAddress);
     print('servicePath: ' + servicePath);
     Uri uri = Uri.http(serverAddress, servicePath, value);
+    //Uri uri = Uri.https(serverAddress, servicePath, value);
     bool errorOccurred = false;
     print('makeRequest2');
     while (true) {
       try {
         var response;
         // setting content type
-        String contentType = "";
+        String contentType = '';
         dynamic formattedBody;
         if (type == TypeHeader.json) {
           contentType = "application/json;charset=utf-8";
@@ -38,6 +39,11 @@ class RestManager {
         if (token != null) {
           headers[HttpHeaders.authorizationHeader] = 'bearer $token';
         }
+/*
+        headers[HttpHeaders.accessControlAllowOriginHeader] = '*';
+        headers[HttpHeaders.accessControlAllowMethodsHeader] = 'GET, PUT, POST, DELETE';
+        headers[HttpHeaders.accessControlAllowHeadersHeader] = 'Origin, X-Requested-With, Content-Type, Accept';
+*/
         print('makeRequest3');
         print('case = ' + method);
         // making request
@@ -45,21 +51,31 @@ class RestManager {
           case "post":
             print('uri : ' + uri.toString());
             print('headers : ' + headers.toString());
-            response = await post(
-              uri,
-              headers: headers,
-              body: formattedBody,
-            );
+            print('formattedBody: ' + formattedBody);
+            try {
+              response = await post(
+                uri,
+                headers: headers,
+                body: formattedBody,
+              );
+            } catch (e) {
+              print('ECCEZIONE IN POST: ' + e.toString() );
+            }
             break;
           case "get":
             print('justCuriosity1');
 
             print('uri : ' + uri.toString());
             print('headers : ' + headers.toString());
-            response = await get(
-              uri,
-              headers: headers,
-            );
+            try {
+              response = await get(
+                uri,
+                headers: headers,
+              );
+            } catch (e) {
+              print('ECCEZIONE IN GET: ' + e.toString());
+            }
+            print('GET RESPONSE: ' + response.toString());
 
             print('justCuriosity2');
             break;
@@ -70,6 +86,9 @@ class RestManager {
             );
             break;
           case "delete":
+            print('DELETE');
+            print('uri : ' + uri.toString());
+            print('headers : ' + headers.toString());
             response = await delete(
               uri,
               headers: headers,
@@ -92,15 +111,12 @@ class RestManager {
     }
   }
 
-  Future<String> makePostRequest(
-      String serverAddress, String servicePath, dynamic value,
-      {TypeHeader type = TypeHeader.json}) async {
-    return _makeRequest(serverAddress, servicePath, "post", type,
-        body: value, value: {});
+  Future<String> makePostRequest(String serverAddress, String servicePath, dynamic value, {TypeHeader type = TypeHeader.json}) async {
+    print('postRequest1: ' + serverAddress +' '+ servicePath +' '+ value.toString() +' '+ type.toString());
+    return _makeRequest(serverAddress, servicePath, "post", type, body: value, value: {});
   }
 
-  Future<String> makeGetRequest(String serverAddress, String servicePath,
-      [Map<String, String>? value, TypeHeader? type]) async {
+  Future<String> makeGetRequest(String serverAddress, String servicePath, [Map<String, String>? value, TypeHeader? type]) async {
     print('getRequest1' + serverAddress + servicePath + value.toString() + type.toString());
     return _makeRequest(serverAddress, servicePath, "get", type!, value: value);
   }
@@ -110,8 +126,7 @@ class RestManager {
     return _makeRequest(serverAddress, servicePath, "put", type!, value: value);
   }
 
-  Future<String> makeDeleteRequest(String serverAddress, String servicePath,
-      [Map<String, String>? value, TypeHeader? type]) async {
+  Future<String> makeDeleteRequest(String serverAddress, String servicePath, [Map<String, String>? value, TypeHeader? type]) async {
     return _makeRequest(serverAddress, servicePath, "delete", type!,
         value: value);
   }

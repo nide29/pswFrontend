@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/model/objects/Utente.dart';
 
+import '../../model/Model.dart';
 import 'homepage.dart';
 import 'loginPage.dart';
 
@@ -221,7 +222,7 @@ class _SignUpState extends State<SignUp> {
                           shadowColor: Colors.black.withOpacity(0.2),
                           child: MaterialButton(
                             onPressed: () {
-/*
+
                                   Utente nuovo =  Utente(id: -1 ,
                                   nome:_nameTextController.text,
                                   cognome: _lastnameTextController.text,
@@ -232,7 +233,7 @@ class _SignUpState extends State<SignUp> {
                                   Model.sharedInstance.addUser(nuovo);
 
                                   Navigator.push(context, MaterialPageRoute(builder: (context)=>Login()));
-*/
+
                             },
                             minWidth: MediaQuery.of(context).size.width,
                             child: Text(

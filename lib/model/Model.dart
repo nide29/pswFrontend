@@ -123,6 +123,24 @@ class Model {
     }
   }
 
+  Future<Utente?> deleteUser(String idUtente) async {
+    Map<String, String> params = Map();
+    params["id"] = idUtente;
+    try {
+      String rawResult = await _restManager.makeDeleteRequest(
+          Constants.ADDRESS_STORE_SERVER,
+          Constants.REQUEST_DELETE_USER,
+          params,
+          TypeHeader.json);
+      print('model rawresult: ' + rawResult);
+      return Utente.fromJson(jsonDecode(rawResult));
+    } catch (e) {
+      print('ECCEZIONE');
+      print(e);
+      return null; // not the best solution
+    }
+  }
+
   Future<Utente?> getUserByEmail(String email) async {
     Map<String, String> params = Map();
     params["email"] = email;
@@ -272,6 +290,7 @@ class Model {
     try {
       String rawResult = await _restManager.makePostRequest(
           Constants.ADDRESS_STORE_SERVER, Constants.REQUEST_ADD_ORDINE, ordine);
+      print('ORDINE rawResult: ' + rawResult);
       return Ordine.fromJson(jsonDecode(rawResult));
     } catch (e) {
       return null; // not the best solution
@@ -298,11 +317,11 @@ class Model {
           Constants.REQUEST_SEARCH_ORDINE_BY_ACQUIRENTE,
           params,
           TypeHeader.json);
-      print(rawResult);
-      List<Ordine> temp = List<Ordine>.from(
-          json.decode(rawResult).map((i) => Ordine.fromJson(i)).toList());
+      print('RAW RESULT getOrdineAcquirente: ' + rawResult);
+      List<Ordine> temp = List<Ordine>.from(json.decode(rawResult).map((i) => Ordine.fromJson(i)).toList());
       return temp;
     } catch (e) {
+      print('ECCEZIONEE: ' + e.toString());
       return null; // not the best solution
     }
   }

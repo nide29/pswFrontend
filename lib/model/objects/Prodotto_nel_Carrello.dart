@@ -1,14 +1,14 @@
 import 'package:frontend/model/objects/Prodotto.dart';
 
 class ProdottoNelCarrello {
-  int id;
-  int quantita;
-  Prodotto prodotto;
+  int? id;
+  int? quantita;
+  Prodotto? prodotto;
 
-  static List<ProdottoNelCarrello> carrello = List.empty(growable: true);
+  static List<ProdottoNelCarrello>? carrello = List.empty(growable: true);
 
   ProdottoNelCarrello(
-      {required this.id, required this.quantita, required this.prodotto});
+      {this.id, this.quantita, this.prodotto});
 
   factory ProdottoNelCarrello.fromJson(Map<String, dynamic> json) {
     return ProdottoNelCarrello(
@@ -20,7 +20,7 @@ class ProdottoNelCarrello {
   Map<String, dynamic> toJson() => {
         'id': -1,
         'quantita': quantita,
-        'prodotto': prodotto.toJson(),
+        'prodotto': prodotto!.toJson(),
       };
 
   int? setQuantita(int nuovaQuantita) {

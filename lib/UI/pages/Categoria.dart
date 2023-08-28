@@ -86,10 +86,13 @@ class _CategoriaState extends State<Categoria> {
                         width: 200,
                         decoration: const BoxDecoration(
                             borderRadius: BorderRadius.all(Radius.circular(15))),
-                        child: Image.network(
-                          'images/${item.nome!}.jpg',
-                          fit: BoxFit.cover,
-                          alignment: Alignment.topCenter,
+                        child: ClipRRect(
+                          borderRadius: const BorderRadius.all(Radius.circular(15)),
+                          child: Image.network(
+                            'images/${item.nome!}.jpg',
+                            fit: BoxFit.cover,
+                            alignment: Alignment.topCenter,
+                          ),
                         )
                     ),
                   ),
@@ -106,7 +109,7 @@ class _CategoriaState extends State<Categoria> {
                   Align(
                     alignment: const Alignment(0, 0.8),
                     child: Text(
-                      '€ ${item.prezzo}', //categoria del prodotto
+                      '€ ${item.prezzo}.00', //categoria del prodotto
                       style: const TextStyle(
                           color: Colors.black87,
                           fontSize: 26,
