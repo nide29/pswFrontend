@@ -1,7 +1,5 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_custom_cards/flutter_custom_cards.dart';
-import 'package:frontend/main.dart';
 
 import '../UI/pages/Categoria.dart';
 
@@ -83,7 +81,7 @@ class HorizontalList extends StatelessWidget {
                 ClipRRect(
                     borderRadius: BorderRadius.all(Radius.circular(18)),
                     child:
-                        Center(child: Image.network('images/obiettivi.jpg', fit: BoxFit.cover, scale: 1.8))),
+                        Center(child: Image.network('images/obiettivi.jpg', fit: BoxFit.cover))),
                 const Text(
                   'OBIETTIVI', //categoria del prodotto
                   style: TextStyle(
@@ -109,7 +107,7 @@ class HorizontalList extends StatelessWidget {
                 ClipRRect(
                     borderRadius: BorderRadius.all(Radius.circular(18)),
                     child:
-                        Center(child: Image.network('images/batterie.jpg', fit: BoxFit.cover, scale:1.7,))),
+                        Center(child: Image.network('images/batterie.jpg', fit: BoxFit.cover))),
                 const Text(
                   'BATTERIE', //categoria del prodotto
                   style: TextStyle(
@@ -151,176 +149,3 @@ class HorizontalList extends StatelessWidget {
 }
 
 
-/* //ALTERNATIVA PRECEDENTE
-class HorizontalList extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-        height: 220.0,
-        child: Row(
-          //scrollDirection: Axis.horizontal,
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [
-            //REFLEX
-            GestureDetector(
-              onTap: () {
-                Navigator.pushNamed(context, '/reflex');
-              },
-              child: Container(
-                decoration: BoxDecoration(boxShadow: [
-                  BoxShadow(
-                    color: Colors.grey.withOpacity(0.12),
-                    spreadRadius: 2,
-                    blurRadius: 20,
-                    //offset: Offset(5, 5)
-                  )
-                ]),
-                child: ClipRRect(
-                    borderRadius: BorderRadius.all(Radius.circular(15)),
-                    child: Stack(
-                      alignment: Alignment.bottomCenter,
-                      children: [
-                        Image.network('images/reflex.jpg', fit: BoxFit.cover),
-                        const Text(
-                          'REFLEX', //categoria del prodotto
-                          style: TextStyle(
-                              color: Colors.black87,
-                              fontFamily: 'Avenir',
-                              letterSpacing: 5.0),
-                        ),
-                      ],
-                    )),
-              ),
-            ),
-
-            //MIRRORLESS
-            GestureDetector(
-              onTap: () {
-                Navigator.pushNamed(context, '/mirrorless');
-              },
-              child: Container(
-                decoration: BoxDecoration(boxShadow: [
-                  BoxShadow(
-                    color: Colors.grey.withOpacity(0.12),
-                    spreadRadius: 2,
-                    blurRadius: 20,
-                    //offset: Offset(5, 5)
-                  )
-                ]),
-                child: ClipRRect(
-                    borderRadius: BorderRadius.all(Radius.circular(15)),
-                    child: Stack(
-                      alignment: Alignment.bottomCenter,
-                      children: [
-                        Image.network('images/reflex.jpg', fit: BoxFit.cover),
-                        const Text(
-                          'MIRRORLESS', //categoria del prodotto
-                          style: TextStyle(
-                              color: Colors.black87,
-                              fontFamily: 'Avenir',
-                              letterSpacing: 5.0),
-                        ),
-                      ],
-                    )),
-              ),
-            ),
-
-            //OBIETTIVI
-            GestureDetector(
-              onTap: () {
-                Navigator.pushNamed(context, '/obiettivi');
-              },
-              child: Container(
-                decoration: BoxDecoration(boxShadow: [
-                  BoxShadow(
-                    color: Colors.grey.withOpacity(0.12),
-                    spreadRadius: 2,
-                    blurRadius: 20,
-                    //offset: Offset(5, 5)
-                  )
-                ]),
-                child: ClipRRect(
-                    borderRadius: BorderRadius.all(Radius.circular(15)),
-                    child: Stack(
-                      alignment: Alignment.bottomCenter,
-                      children: [
-                        Image.network('images/reflex.jpg', fit: BoxFit.cover),
-                        const Text(
-                          'OBIETTIVI', //categoria del prodotto
-                          style: TextStyle(
-                              color: Colors.black87,
-                              fontFamily: 'Avenir',
-                              letterSpacing: 5.0),
-                        ),
-                      ],
-                    )),
-              ),
-            ),
-
-            //BATTERIE
-            GestureDetector(
-              onTap: () {
-                Navigator.pushNamed(context, '/batterie');
-              },
-              child: Container(
-                decoration: BoxDecoration(boxShadow: [
-                  BoxShadow(
-                    color: Colors.grey.withOpacity(0.12),
-                    spreadRadius: 2,
-                    blurRadius: 20,
-                    //offset: Offset(5, 5)
-                  )
-                ]),
-                child: ClipRRect(
-                    borderRadius: BorderRadius.all(Radius.circular(15)),
-                    child: Stack(
-                      alignment: Alignment.bottomCenter,
-                      children: [
-                        Image.network('images/reflex.jpg', fit: BoxFit.cover),
-                        const Text(
-                          'BATTERIE', //categoria del prodotto
-                          style: TextStyle(
-                              color: Colors.black87,
-                              fontFamily: 'Avenir',
-                              letterSpacing: 5.0),
-                        ),
-                      ],
-                    )),
-              ),
-            ),
-
-            //ACCESSORI
-            GestureDetector(
-              onTap: () {
-                Navigator.pushNamed(context, '/accessori');
-              },
-              child: Container(
-                decoration: BoxDecoration(boxShadow: [
-                  BoxShadow(
-                    color: Colors.grey.withOpacity(0.12),
-                    spreadRadius: 2,
-                    blurRadius: 20,
-                    //offset: Offset(5, 5)
-                  )
-                ]),
-                child: ClipRRect(
-                    borderRadius: BorderRadius.all(Radius.circular(15)),
-                    child: Stack(
-                      alignment: Alignment.bottomCenter,
-                      children: [
-                        Image.network('images/reflex.jpg', fit: BoxFit.cover),
-                        const Text(
-                          'ACCESSORI', //categoria del prodotto
-                          style: TextStyle(
-                              color: Colors.black87,
-                              fontFamily: 'Avenir',
-                              letterSpacing: 5.0),
-                        ),
-                      ],
-                    )),
-              ),
-            ),
-          ],
-        ));
-  } //build
-}*/

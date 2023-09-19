@@ -1,11 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_custom_cards/flutter_custom_cards.dart';
 import 'package:frontend/model/objects/Utente.dart';
 
 import '../../model/Model.dart';
 import '../../model/objects/Ordine.dart';
-import '../../widget/custom_appbar.dart';
-import '../../widget/custom_navbar.dart';
 import 'cart.dart';
 import 'homepage.dart';
 import 'infoUtente.dart';
@@ -106,7 +103,7 @@ class AreaPersonalePage extends StatelessWidget {
                   onPressed: () {
                     if (!_status) {
                       Navigator.push(context,
-                          MaterialPageRoute(builder: ((context) => Login())));
+                          MaterialPageRoute(builder: ((context) => Login(false))));
                     } else {
                       showDialog(
                           context: context,

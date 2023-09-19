@@ -17,7 +17,6 @@ class _SignUpState extends State<SignUp> {
   TextEditingController _lastnameTextController = TextEditingController();
   TextEditingController _phoneTextController = TextEditingController();
   TextEditingController addressTextController = TextEditingController();
-  TextEditingController _confirmPasswordController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -150,7 +149,7 @@ class _SignUpState extends State<SignUp> {
                               hintText: "Email",
                               icon: Icon(Icons.alternate_email),
                             ),
-                            /* validator: (value) {
+                             /*validator: (value) {
                                   if (value!.isEmpty) {
                                     Pattern pattern =
                                         r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
@@ -189,30 +188,7 @@ class _SignUpState extends State<SignUp> {
                         ),
                       ),
                     ),
-                    Padding(
-                      padding: const EdgeInsets.fromLTRB(14.0, 8.0, 14.0, 8.0),
-                      child: Material(
-                        borderRadius: BorderRadius.circular(10.0),
-                        color: Colors.white.withOpacity(0.4),
-                        elevation: 0.0,
-                        child: Padding(
-                          padding: const EdgeInsets.only(left: 12.0),
-                          child: TextFormField(
-                            controller: _confirmPasswordController,
-                            decoration: InputDecoration(
-                              hintText: "Conferma password",
-                              icon: Icon(Icons.lock_outline),
-                            ),
-                            validator: (value) {
-                              if (value!.isEmpty) {
-                                return "Il campo password non può essere vuoto ";
-                              }
-                              return null;
-                            },
-                          ),
-                        ),
-                      ),
-                    ),
+
                     Padding(
                       padding: const EdgeInsets.fromLTRB(14.0, 8.0, 14.0, 8.0),
                       child: Material(
@@ -232,7 +208,7 @@ class _SignUpState extends State<SignUp> {
                                   password: _passwordTextController.text);
                                   Model.sharedInstance.addUser(nuovo);
 
-                                  Navigator.push(context, MaterialPageRoute(builder: (context)=>Login()));
+                                  Navigator.push(context, MaterialPageRoute(builder: (context)=>Login(false)));
 
                             },
                             minWidth: MediaQuery.of(context).size.width,

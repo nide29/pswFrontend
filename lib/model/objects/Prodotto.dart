@@ -20,9 +20,7 @@ class Prodotto {
     this.prezzo = prezzo;
     this.quantita = quantita;
 
-    //Model.sharedInstance.getIcon(this.nome!).then((value) {
-    //  icon = value;
-    //});
+
   } //constructor
 
   factory Prodotto.fromJson(Map<String, dynamic> json) {

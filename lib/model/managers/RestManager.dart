@@ -39,12 +39,13 @@ class RestManager {
         if (token != null) {
           headers[HttpHeaders.authorizationHeader] = 'bearer $token';
         }
-/*
-        headers[HttpHeaders.accessControlAllowOriginHeader] = '*';
-        headers[HttpHeaders.accessControlAllowMethodsHeader] = 'GET, PUT, POST, DELETE';
-        headers[HttpHeaders.accessControlAllowHeadersHeader] = 'Origin, X-Requested-With, Content-Type, Accept';
-*/
-        print('makeRequest3');
+
+        //headers[HttpHeaders.accessControlAllowOriginHeader] = '*';
+        //headers[HttpHeaders.acceptHeader] = '*/*';
+        //headers[HttpHeaders.accessControlAllowHeadersHeader] = 'Origin, X-Requested-With, Content-Type, Accept';
+        //headers[HttpHeaders.accessControlAllowMethodsHeader] = 'GET,PUT,PATCH,POST,DELETE';
+
+        print('DEBUG: makeRequest3');
         print('case = ' + method);
         // making request
         switch (method) {

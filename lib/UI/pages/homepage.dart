@@ -5,7 +5,6 @@ import 'package:frontend/components/horizontal_listview.dart';
 import 'package:frontend/components/gridview_prodotti.dart';
 
 import '../../widget/custom_appbar.dart';
-import '../../widget/custom_navbar.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -38,37 +37,40 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
       appBar: const CustomAppBar(title: 'OBIETTIVAMENTE'),
       backgroundColor: const Color.fromARGB(255, 255, 255, 249),
       body: ListView(children: [
-        CarouselSlider(
-          options: CarouselOptions(
-              autoPlay: true,
-              height: 470,
-              viewportFraction: 0.49,
-              enlargeStrategy: CenterPageEnlargeStrategy.zoom,
-              enlargeCenterPage: true,
-              enlargeFactor: 0.18),
-          items: list
-              .map((item) => Center(
-                    child: Container(
-                      decoration: BoxDecoration(boxShadow: [
-                        BoxShadow(
-                          color: Colors.grey.withOpacity(0.3),
-                          spreadRadius: 0,
-                          blurRadius: 20,
-                          //offset: Offset(5, 5)
-                        )
-                      ]),
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.all(Radius.circular(15)),
-                        child: Image.network(
-                          item,
-                          fit: BoxFit.cover,
-                          width: 700,
-                          height: 400,
+        Padding(
+          padding: const EdgeInsets.only(top: 10),
+          child: CarouselSlider(
+            options: CarouselOptions(
+                autoPlay: true,
+                height: 350,
+                viewportFraction: 0.49,
+                enlargeStrategy: CenterPageEnlargeStrategy.zoom,
+                enlargeCenterPage: true,
+                enlargeFactor: 0.18),
+            items: list
+                .map((item) => Center(
+                      child: Container(
+                        decoration: BoxDecoration(boxShadow: [
+                          BoxShadow(
+                            color: Colors.grey.withOpacity(0.3),
+                            spreadRadius: 0,
+                            blurRadius: 20,
+                            //offset: Offset(5, 5)
+                          )
+                        ]),
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.all(Radius.circular(15)),
+                          child: Image.network(
+                            item,
+                            fit: BoxFit.cover,
+                            width: 700,
+                            height: 400,
+                          ),
                         ),
                       ),
-                    ),
-                  ))
-              .toList(),
+                    ))
+                .toList(),
+          ),
         ),
 
         const Padding(

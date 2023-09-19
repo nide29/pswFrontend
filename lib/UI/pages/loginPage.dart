@@ -4,14 +4,21 @@ import 'package:frontend/UI/pages/signUpPage.dart';
 import '../../model/Model.dart';
 import '../../model/objects/Utente.dart';
 import '../../model/support/LogInResult.dart';
-import 'homepage.dart';
 
 class Login extends StatefulWidget {
+  bool? status;
+
+  Login(this.status);
+
   @override
-  _LoginState createState() => _LoginState();
+  _LoginState createState() => _LoginState(status!);
 }
 
 class _LoginState extends State<Login> {
+  final bool status;
+
+  _LoginState(this.status);
+
   TextEditingController _email = TextEditingController();
   TextEditingController _password = TextEditingController();
   bool isObscured = true;
@@ -51,11 +58,10 @@ class _LoginState extends State<Login> {
             child: Container(
               decoration: BoxDecoration(
                 color: Colors.white,
-                //borderRadius: BorderRadius.circular(16),
                 boxShadow: [
                   BoxShadow(
                     color: Colors.grey,
-                    blurRadius: 20.0, // has the effect of softening the shadow
+                    blurRadius: 20.0,
                   )
                 ],
               ),
@@ -145,20 +151,21 @@ class _LoginState extends State<Login> {
                                           content: Row(
                                             children: [
                                               Text(
-                                                  'Log in effettuato!\nBenvenuto, ${Utente.utente!.nome.toUpperCase()}'),
+                                                  'Log in effettuato!\nBenvenuto, ${Utente.utente!.nome.toUpperCase()} \nPremi OK per procedere '),
                                               MaterialButton(
                                                 onPressed: () {
-                                                  //Navigator.pop(context);
-                                                  //Navigator.pop(context);
-                                                  /*Navigator.pushAndRemoveUntil(
-                                                    context,
-                                                    MaterialPageRoute(
-                                                        builder: (context) =>
-                                                            AreaPersonalePage()),
-                                                    (Route<dynamic> route) =>
-                                                        false,
-                                                  );*/
-                                                  Navigator.push(context, MaterialPageRoute(builder: (context) => AreaPersonalePage()));
+
+                                                  if(!status) {
+                                                    Navigator.push(context,
+                                                        MaterialPageRoute(
+                                                            builder: (
+                                                                context) =>
+                                                                AreaPersonalePage()));
+                                                  } else {
+                                                    Navigator.pop(context);
+                                                    Navigator.pop(context);
+                                                    Navigator.pop(context);
+                                                  }
                                                 },
                                                 child: Text("OK"),
                                               ),
@@ -168,33 +175,7 @@ class _LoginState extends State<Login> {
                                       });
                                 });
                               }
-                              /*Model.sharedInstance.logIn(_email.text, _password.text).then((value){
-                                  if(value==LogInResult.logged){
-                                    Model.sharedInstance.getUserByEmail(_email.text).then((value2){
-                                        Utente.utente = value2;
-                                    });
-                                    fetchData();
-                                    showDialog(
-                                        context: context,
-                                        builder: (BuildContext context) {
-                                          return AlertDialog(
-                                            content:  Row(
-                                              children: [
-                                                Text('Log in effettuato!\nBenvenuto, $nomeUtente'),
-                                                MaterialButton(onPressed: (){
-                                                  //Navigator.pushNamed(context, '/homepage');
-                                                  Navigator.pop(context);
-                                                }, child: Text("OK"),),
-                                              ],
-                                            ),
-                                          );
-                                        });
-                                  }
-                                  else{
-                                    showDialog(context: context, builder: (BuildContext context){return AlertDialog(content: new Text ("Email o Password non valide.\nClicca sullo schermo per tornare indietro"),);});
-                                    ;
-                                  }
-                                });*/
+
                             } else {
                               showDialog(
                                   context: context,
